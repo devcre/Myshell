@@ -24,17 +24,15 @@ int main(void){
 		input = (char*)malloc(100*sizeof(char));
 		fgets(input, 101, stdin); // get command line as much as 100
 
-		printf("input: %s\n", input);
-
 		i = 0;
 		// tokenize command line
+		printf("\n");
 		args[i] = strtok(input, " \n");
 		while(args[i] != NULL){
 			i++;
 			args[i] = strtok(NULL, " \n");
 		}
 
-		// printf("input: %s\n", input);
 		if(args[0] == NULL){ // if no argument, return to the start of while loop
 			
 		}
@@ -42,24 +40,29 @@ int main(void){
 		if(strcmp(input, "exit") == 0){ //if command is exit, exit shell
 			break;
 		}
-
 		else{
-			printf("input : %s\n", input);
-			printf("args[0] : %s\n", args[0]);
-			printf("args[1] : %s\n", args[1]);
-
 			pid = fork();
 			if(pid < 0){
-				perror("fork error");
-				exit(0);
+				perror("fork error\n");
 			}
 
 			if(pid == 0){ // child process
 				if(strcmp(args[0], "cat") == 0){
-					execv("./cat", args);
+					execv("./cat", args); // execute cat instruction
+				}
+				else if(strcmp(args[0], "ls") == 0){
+					execv("./ls", args); // execute ls instructon
+				}
+				else if(strcmp(args[0], "mkdir") == 0){
+					execv("./mkdir", args); // execute mkdir instruction
 				}
 				else{
-					execvp(args[0], args);
+					printf("execvp: %d\n", execvp(args[0], args));
+					// execvp(args[0], args); // execute other instructions
+					if(execvp(args[0], args) < 0){ // if executing instruction fail,
+						printf("Command Not Found.\n");
+						kill(getpid(), SIGINT); // kill useless child process
+					}
 				}
 			}
 
