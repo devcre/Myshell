@@ -33,7 +33,7 @@ int main(void){
 		}
 
 		if(args[0] == NULL){ // if no argument, return to the start of while loop
-			
+			goto no_input;	
 		}
 
 		if(strcmp(input, "exit") == 0){ //if command is exit, exit shell
@@ -72,6 +72,7 @@ int main(void){
 				}
 			}
 		}
+		no_input:;
 	}
 	free(input);
 
