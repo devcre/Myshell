@@ -26,7 +26,6 @@ int main(void){
 
 		i = 0;
 		// tokenize command line
-		printf("\n");
 		args[i] = strtok(input, " \n");
 		while(args[i] != NULL){
 			i++;
@@ -57,7 +56,6 @@ int main(void){
 					execv("./mkdir", args); // execute mkdir instruction
 				}
 				else{
-					printf("execvp: %d\n", execvp(args[0], args));
 					// execvp(args[0], args); // execute other instructions
 					if(execvp(args[0], args) < 0){ // if executing instruction fail,
 						printf("Command Not Found.\n");
